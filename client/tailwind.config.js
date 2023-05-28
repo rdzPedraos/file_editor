@@ -10,7 +10,7 @@ export default {
 				primary: 'rgb( var(--primary) / <alpha-value> )',
 				'primary-light': 'rgb( var(--primary-light) / <alpha-value> )',
 
-				seconadry: 'rgb( var(--seconadry) / <alpha-value> )',
+				secondary: 'rgb( var(--secondary) / <alpha-value> )',
 				'secondary-light': 'rgb( var(--secondary-light) / <alpha-value> )',
 
 				info: 'rgb( var(--info) / <alpha-value> )',

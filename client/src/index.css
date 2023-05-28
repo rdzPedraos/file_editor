@@ -2,17 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+	:root {
+		--base: 228 235 244;
+		--base-light: 246 248 250;
 
-:root{
-    --base: 228 235 244,
-    --base-light: 246 248 250,
+		--primary: 234 76 137;
+		--primary-light: 255 164 199;
 
-    --primary: 234 76 137,
-    --primary-light: 255 164 199,
+		--secondary: 104 106 113;
+		--secondary-light: 234 234 234;
 
-    --seconadry: 104, 106, 113
-    --secondary-light: 234 234 234,
-
-    --info: 44 114 186
-    --info-light: 233 242 248
+		--info: 44 114 186;
+		--info-light: 233 242 248;
+	}
 }
