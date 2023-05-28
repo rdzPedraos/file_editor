@@ -2,7 +2,10 @@ import PropTypes from 'prop-types';
 
 function Box({ Type = 'div', className = '', children, ...props }) {
 	return (
-		<Type className={`p-5 bg-white shadow ${className}`} {...props}>
+		<Type
+			className={`p-5 bg-white rounded drop-shadow ${className}`}
+			{...props}
+		>
 			{children}
 		</Type>
 	);
