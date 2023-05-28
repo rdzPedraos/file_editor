@@ -1,32 +1,19 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useContext } from 'react';
 
-import axios from 'axios';
-
-/*import FileUpload from './components/FileUpload';
-import FileDisplay from './components/FileDisplay';*/
+import Upload from './pages/Upload';
+import { fileTypes } from './utils/fileTypes';
+import { FileContext } from './context/FileContext';
 
 function App() {
-	const [data, setData] = useState(null);
-	const [selectedFile, setSelectedFile] = useState(null);
-
-	useEffect(() => {
-		axios.get('/api').then(data => console.log(data));
-	}, []);
+	const { file, setFile } = useContext(FileContext);
+	const Component = fileTypes[file?.type]?.page ?? Upload;
 
 	return (
-		<>
-			<div className='App'>
-				<header className='App-header'>
-					<p>{!data ? 'Loading...' : JSON.stringify(data)}</p>
-				</header>
-				<body>
-					<h1>File Management App</h1>
-					{/*<FileUpload setSelectedFile={setSelectedFile} />
-					<FileDisplay selectedFile={selectedFile} />*/}
-				</body>
-			</div>
-		</>
+		<div>
+			<button onClick={() => setFile(null)}>Home</button>
+
+			<Component />
+		</div>
 	);
 }
 
