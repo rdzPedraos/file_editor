@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
-import Logo from '../components/Logo';
-import Box from '../components/Box';
 
 import svg from '../img/bg.svg';
+import Header from './Header';
 
 function GuestLayout({ children, ...props }) {
 	return (
 		<div className='min-w-screen min-h-screen bg-base-light' {...props}>
-			<Box Type='header' className='flex relative z-10 h-24 items-center'>
-				<Logo size='md' />
-			</Box>
+			<Header className='relative z-10 h-24' />
 
 			<main className='relative z-10 min-h-[calc(100vh-96px)] w-screen'>
 				{children}
