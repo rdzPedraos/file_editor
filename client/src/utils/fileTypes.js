@@ -57,11 +57,6 @@ const extractDataFromCSV = async file => {
 		.map(line => line.split(',').map(value => value.trim()));
 };
 
-const extractDataFromTXT = file => {
-	console.log(file);
-	return [];
-};
-
 export function getFileTypeInfo(file) {
 	switch (file.type) {
 		case 'application/msword':
@@ -72,7 +67,7 @@ export function getFileTypeInfo(file) {
 			};
 		case 'text/plain':
 			return {
-				extractData: extractDataFromTXT,
+				extractData: extractDataToTxT,
 				url: '/text',
 			};
 		case 'application/vnd.ms-excel':

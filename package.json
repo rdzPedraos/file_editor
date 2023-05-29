@@ -12,7 +12,9 @@
 	"license": "ISC",
 	"dependencies": {
 		"axios": "^1.4.0",
+		"docxtemplater": "^3.37.9",
 		"express": "^4.18.2",
-		"mammoth": "^1.5.1"
+		"mammoth": "^1.5.1",
+		"pizzip": "^3.1.4"
 	}
 }
