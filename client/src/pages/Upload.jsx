@@ -1,14 +1,15 @@
-import PropTypes from 'prop-types';
 import FileUpload from '../components/FileUpload';
+import Box from '../components/Box';
 
-function Upload(props) {
+function Upload() {
 	return (
-		<div>
-			<FileUpload />
+		<div className='md:pt-6 lg:pt-28'>
+			<Box className='max-w-screen-md mx-auto'>
+				<p className='text-xl font-semibold mb-4'>Subir archivo</p>
+				<FileUpload className='min-h-[500px]' />
+			</Box>
 		</div>
 	);
 }
-
-Upload.propTypes = {};
 
 export default Upload;
