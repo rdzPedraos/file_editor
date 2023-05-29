@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Box from '../components/Box';
 import Logo from '../components/Logo';
-import { fileTypes } from '../utils/fileTypes';
+import { typesMetadata } from '../utils/fileTypes';
 import { Link, useLocation } from 'react-router-dom';
 
 function Header({ className }) {
@@ -14,7 +14,7 @@ function Header({ className }) {
 			<Logo size='md' />
 
 			<div className='flex gap-2'>
-				{Object.values(fileTypes).map((type, key) => (
+				{Object.values(typesMetadata).map((type, key) => (
 					<div
 						key={key}
 						className={`py-2 px-3 rounded shadow text-md transition-all ${

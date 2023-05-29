@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { fileTypes } from '../utils/fileTypes';
+import { getFileTypeInfo } from '../utils/fileTypes';
 import { useNavigate } from 'react-router-dom';
 
 export const FileContext = createContext();
@@ -18,16 +18,16 @@ function FileProvider({ children }) {
 		if (file === null || file === undefined) return;
 		setLoading(true);
 
-		const fileType = fileTypes[file?.type];
+		const fileTypeInfo = getFileTypeInfo(file);
 
-		if (fileType) {
-			fileType.extractData(file).then(data => {
+		if (fileTypeInfo) {
+			fileTypeInfo.extractData(file).then(data => {
 				setData(data);
 				setError(null);
 
 				//setFile(null);
 				setLoading(false);
-				navigate(fileType.pageUrl);
+				navigate(fileTypeInfo.pageUrl);
 			});
 		} else {
 			setError('No se reconoce el tipo de archivo.');

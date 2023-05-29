@@ -21,8 +21,33 @@ const extractDataFromXML = file => {
 };
 
 const extractDataFromDOC = file => {
-	console.log(file);
-	return [];
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+
+		reader.onload = function (e) {
+			const fileData = e.target.result;
+
+			// Send the file data to the server
+			fetch('api/convert/word', {
+				method: 'POST',
+				body: fileData,
+				headers: {
+					'Content-Type': 'application/octet-stream',
+				},
+			})
+				.then(response => response.json())
+				.then(data => {
+					const html = data.html;
+					resolve(html);
+				})
+				.catch(error => {
+					console.error(error);
+					reject(new Error('Error al leer el archivo.'));
+				});
+		};
+
+		reader.readAsArrayBuffer(file);
+	});
 };
 
 const extractDataFromCSV = async file => {
@@ -37,33 +62,57 @@ const extractDataFromTXT = file => {
 	return [];
 };
 
-export const fileTypes = {
-	'application/msword': {
-		extractData: extractDataFromDOC,
+export const typesMetadata = {
+	word: {
 		pageUrl: '/doc',
 		text: 'Word',
 		bgColor: '#275090',
 		txtColor: '#fff',
 	},
-	'text/plain': {
-		extractData: extractDataFromTXT,
+	txt: {
 		pageUrl: '/txt',
 		text: 'Texto',
 		bgColor: '#9fd2ef',
 		txtColor: '#000',
 	},
-	'application/vnd.ms-excel': {
-		extractData: extractDataFromCSV,
+	csv: {
 		pageUrl: '/csv',
 		text: 'CSV',
 		bgColor: '#037341',
 		txtColor: '#fff',
 	},
-	'text/xml': {
-		extractData: extractDataFromXML,
-		pageUrl: '/xlm',
+	xml: {
+		pageUrl: '/xml',
 		text: 'XML',
-		bgColor: '#ea7301',
-		txtColor: '#fff',
+		bgColor: '#f5f5f5',
+		txtColor: '#000',
 	},
 };
+
+export function getFileTypeInfo(file) {
+	switch (file.type) {
+		case 'application/msword':
+		case 'application/wps-office.docx':
+			return {
+				extractData: extractDataFromDOC,
+				...typesMetadata.word,
+			};
+		case 'text/plain':
+			return {
+				extractData: extractDataFromTXT,
+				...typesMetadata.txt,
+			};
+		case 'application/vnd.ms-excel':
+			return {
+				extractData: extractDataFromCSV,
+				...typesMetadata.csv,
+			};
+		case 'text/xml':
+			return {
+				extractData: extractDataFromXML,
+				...typesMetadata.xml,
+			};
+		default:
+			return null;
+	}
+}

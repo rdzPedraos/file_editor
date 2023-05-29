@@ -4,7 +4,7 @@ import Upload from './pages/Upload';
 import EditCsv from './pages/EditCsv';
 import EditTxt from './pages/EditTxt';
 import EditXml from './pages/EditXml';
-import GuestLayout from './layouts/guest';
+import GuestLayout from './layouts/Guest';
 
 function App() {
 	return (
