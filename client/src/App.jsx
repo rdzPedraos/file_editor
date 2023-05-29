@@ -10,7 +10,10 @@ function App() {
 	const Component = fileTypes[file?.type]?.page ?? Upload;
 
 	return (
-		<GuestLayout>
+		<GuestLayout
+			onDragOver={e => e.preventDefault()}
+			onDrop={e => e.preventDefault()}
+		>
 			<Component />
 		</GuestLayout>
 	);

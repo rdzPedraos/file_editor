@@ -4,9 +4,9 @@ import Box from '../components/Box';
 
 import svg from '../img/bg.svg';
 
-function GuestLayout({ children }) {
+function GuestLayout({ children, ...props }) {
 	return (
-		<div className='min-w-screen min-h-screen bg-base-light'>
+		<div className='min-w-screen min-h-screen bg-base-light' {...props}>
 			<Box Type='header' className='flex relative z-10 h-24 items-center'>
 				<Logo size='md' />
 			</Box>
