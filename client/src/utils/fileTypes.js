@@ -27,28 +27,9 @@ const extractDataFromDOC = file => {
 
 const extractDataFromCSV = async file => {
 	const txt = await extractDataToTxT(file);
-	const lines = txt.split('\n');
-	const headers = lines
-		.shift()
-		.split(',')
-		.map(header => header.trim());
-
-	return {
-		header: headers,
-		body: lines.map(line => {
-			const values = line.split(',');
-			const valuesLength = values.length;
-			const obj = {};
-
-			headers.forEach((header, index) => {
-				if (index < valuesLength) {
-					obj[header] = values[index].trim();
-				}
-			});
-
-			return obj;
-		}),
-	};
+	return txt
+		.split('\n')
+		.map(line => line.split(',').map(value => value.trim()));
 };
 
 const extractDataFromTXT = file => {
@@ -59,18 +40,30 @@ const extractDataFromTXT = file => {
 export const fileTypes = {
 	'application/msword': {
 		extractData: extractDataFromDOC,
-		pageUrl: '/txt',
+		pageUrl: '/doc',
+		text: 'Word',
+		bgColor: '#275090',
+		txtColor: '#fff',
 	},
 	'text/plain': {
 		extractData: extractDataFromTXT,
 		pageUrl: '/txt',
+		text: 'Texto',
+		bgColor: '#9fd2ef',
+		txtColor: '#000',
 	},
 	'application/vnd.ms-excel': {
 		extractData: extractDataFromCSV,
 		pageUrl: '/csv',
+		text: 'CSV',
+		bgColor: '#037341',
+		txtColor: '#fff',
 	},
 	'text/xml': {
 		extractData: extractDataFromXML,
 		pageUrl: '/xlm',
+		text: 'XML',
+		bgColor: '#ea7301',
+		txtColor: '#fff',
 	},
 };
