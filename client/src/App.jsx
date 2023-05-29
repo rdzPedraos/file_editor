@@ -1,25 +1,19 @@
-import { useContext, useMemo } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import Upload from './pages/Upload';
+import EditCsv from './pages/EditCsv';
 import GuestLayout from './layouts/guest';
-import { fileTypes } from './utils/fileTypes';
-import { FileContext } from './context/FileContext';
 
 function App() {
-	const { file, data } = useContext(FileContext);
-
-	//Must use this hook for load component dynamic.
-	const Component = useMemo(() => {
-		const Page = fileTypes[file?.type]?.page;
-		return Page ? <Page data={data} /> : <Upload />;
-	}, [file, data]);
-
 	return (
 		<GuestLayout
 			onDragOver={e => e.preventDefault()}
 			onDrop={e => e.preventDefault()}
 		>
-			{Component}
+			<Routes>
+				<Route path='/' exact element={<Upload />} />
+				<Route path='/csv' element={<EditCsv />} />
+			</Routes>
 		</GuestLayout>
 	);
 }

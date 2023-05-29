@@ -1,10 +1,13 @@
-import PropTypes from 'prop-types';
 import { useState, useEffect, createContext } from 'react';
+import PropTypes from 'prop-types';
+
 import { fileTypes } from '../utils/fileTypes';
+import { useNavigate } from 'react-router-dom';
 
 export const FileContext = createContext();
 
 function FileProvider({ children }) {
+	const navigate = useNavigate();
 	const [file, setFile] = useState(null);
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -21,12 +24,13 @@ function FileProvider({ children }) {
 				setData(data);
 				setError(null);
 				setLoading(false);
+				navigate(fileType.pageUrl);
 			});
 		} else {
 			setError('No se reconoce el tipo de archivo.');
 			setLoading(false);
 		}
-	}, [file]);
+	}, [file, navigate]);
 
 	return (
 		<FileContext.Provider value={{ data, file, setFile, loading, error }}>

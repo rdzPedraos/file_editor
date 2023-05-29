@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import img from '../img/mascot_2.png';
-import { useContext } from 'react';
-import { FileContext } from '../context/FileContext';
+import { useNavigate } from 'react-router-dom';
 
 const measures = {
 	sm: '',
@@ -13,13 +12,13 @@ const measures = {
 };
 
 function Logo({ size }) {
-	const { setFile } = useContext(FileContext);
+	const navigate = useNavigate();
 	const { img: imgMeasures, title: titleMeasures } = measures[size];
 
 	return (
 		<div
 			className='flex items-center cursor-pointer'
-			onClick={() => setFile(null)}
+			onClick={() => navigate('/')}
 		>
 			<p className={`text-primary-light ${titleMeasures}`}>M</p>
 			<img src={img} alt='icon' className={imgMeasures} />
