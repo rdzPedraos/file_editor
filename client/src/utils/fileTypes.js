@@ -85,7 +85,7 @@ export const typesMetadata = {
 		pageUrl: '/xml',
 		text: 'XML',
 		bgColor: '#f5f5f5',
-		txtColor: '#000',
+		txtColor: '#ea7601',
 	},
 };
 
