@@ -12,8 +12,16 @@ function GuestLayout({ children, ...props }) {
 				{children}
 			</main>
 
-			<div className='absolute top-0 right-0 bottom-0 left-0'>
-				<img src={svg} className='w-full h-full object-cover' />
+			<div className='absolute top-0 right-0 bottom-0 left-0 overflow-hidden'>
+				<img
+					src={svg}
+					className='w-full h-full object-cover'
+					style={{
+						animation:
+							'expand-collapse 40s cubic-bezier(.17,.84,.44,1) infinite',
+						animationName: 'expand-collapse',
+					}}
+				/>
 			</div>
 		</div>
 	);
