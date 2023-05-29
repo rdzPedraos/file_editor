@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
@@ -8,7 +8,7 @@ import { FileContext } from '../context/FileContext';
 function EditTxt() {
 	const { data } = useContext(FileContext);
 
-	const ckeditor = useRef(null);
+	let ckeditor = null;
 
 	return (
 		<div className='m-6 bg-white'>
@@ -22,14 +22,14 @@ function EditTxt() {
 							editor.ui.getEditableElement()
 						);
 
-					ckeditor.current = editor;
+					ckeditor = editor;
 				}}
 				onError={(error, { willEditorRestart }) => {
 					// If the editor is restarted, the toolbar element will be created once again.
 					// The `onReady` callback will be called again and the new toolbar will be added.
 					// This is why you need to remove the older toolbar.
 					if (willEditorRestart) {
-						ckeditor.current.ui.view.toolbar.element.remove();
+						ckeditor?.ui.view.toolbar.element.remove();
 					}
 				}}
 				editor={DecoupledEditor}

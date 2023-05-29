@@ -15,9 +15,9 @@ function App() {
 			<Routes>
 				<Route path='/' exact element={<Upload />} />
 				<Route path='/csv' element={<EditCsv />} />
-				<Route path='/txt' element={<EditTxt />} />
-				<Route path='/doc' element={<EditTxt />} />
-				<Route path='/xlm' element={<EditXml />} />
+				<Route path='/text' element={<EditTxt />} />
+				<Route path='/word' element={<EditTxt />} />
+				<Route path='/xml' element={<EditXml />} />
 			</Routes>
 		</GuestLayout>
 	);

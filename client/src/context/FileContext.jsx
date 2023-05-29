@@ -28,7 +28,7 @@ function FileProvider({ children }) {
 
 				//setFile(null);
 				setLoading(false);
-				navigate(fileTypeInfo.pageUrl);
+				navigate(fileTypeInfo.url);
 			});
 		} else {
 			setError('No se reconoce el tipo de archivo.');

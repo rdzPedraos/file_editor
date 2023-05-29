@@ -62,55 +62,28 @@ const extractDataFromTXT = file => {
 	return [];
 };
 
-export const typesMetadata = {
-	word: {
-		pageUrl: '/doc',
-		text: 'Word',
-		bgColor: '#275090',
-		txtColor: '#fff',
-	},
-	txt: {
-		pageUrl: '/txt',
-		text: 'Texto',
-		bgColor: '#9fd2ef',
-		txtColor: '#000',
-	},
-	csv: {
-		pageUrl: '/csv',
-		text: 'CSV',
-		bgColor: '#037341',
-		txtColor: '#fff',
-	},
-	xml: {
-		pageUrl: '/xml',
-		text: 'XML',
-		bgColor: '#f5f5f5',
-		txtColor: '#ea7601',
-	},
-};
-
 export function getFileTypeInfo(file) {
 	switch (file.type) {
 		case 'application/msword':
 		case 'application/wps-office.docx':
 			return {
 				extractData: extractDataFromDOC,
-				...typesMetadata.word,
+				url: '/word',
 			};
 		case 'text/plain':
 			return {
 				extractData: extractDataFromTXT,
-				...typesMetadata.txt,
+				url: '/text',
 			};
 		case 'application/vnd.ms-excel':
 			return {
 				extractData: extractDataFromCSV,
-				...typesMetadata.csv,
+				url: '/csv',
 			};
 		case 'text/xml':
 			return {
 				extractData: extractDataFromXML,
-				...typesMetadata.xml,
+				url: '/xml',
 			};
 		default:
 			return null;
