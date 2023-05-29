@@ -1,15 +1,25 @@
 import { useState, useRef, useContext } from 'react';
-import { FileContext } from '../context/FileContext';
-//import axios from 'axios';
+import PropTypes from 'prop-types';
 
-const FileUpload = () => {
-	const { setFile } = useContext(FileContext);
+import Button from './Button';
+import { FileContext } from '../context/FileContext';
+
+import {
+	ArrowsPointingInIcon,
+	CloudIcon,
+	DocumentArrowUpIcon,
+} from '@heroicons/react/24/outline';
+
+const FileUpload = ({ className = '' }) => {
 	const inputRef = useRef();
 	const [drag, setDrag] = useState(null);
+	const { setFile, loading, error } = useContext(FileContext);
 
 	const onDragEnter = () => setDrag(true);
 	const onDragExit = () => setDrag(false);
-	const onDragOver = e => e.preventDefault();
+	const onDragOver = e => {
+		e.preventDefault();
+	};
 	const onDrop = e => {
 		e.preventDefault();
 		const file = e.dataTransfer
@@ -22,17 +32,63 @@ const FileUpload = () => {
 
 	return (
 		<div
-			className='bg-gray-400 h-[100px] w-[100px]'
+			className={
+				`flex flex-col items-center justify-center p-5 border-2 border-dashed ${className} ` +
+				(drag ? 'text-info border-info bg-info-light' : 'text-secondary')
+			}
 			{...{ onDragEnter, onDragExit, onDragOver, onDrop }}
 		>
-			<input type='file' className='hidden' ref={inputRef} onChange={onDrop} />
-			{drag && <p>Esta haciendo drag</p>}
-			Archivo
-			<button onClick={() => inputRef.current.click()}>
-				Clic aquí o arrastra un archivo!{' '}
-			</button>
+			{loading ? (
+				<p>
+					<CloudIcon className='animate-bounce' />
+					Cargando...
+				</p>
+			) : (
+				<>
+					<input
+						type='file'
+						className='hidden'
+						onChange={onDrop}
+						ref={inputRef}
+					/>
+
+					{drag ? (
+						<ArrowsPointingInIcon className='w-16 h-16' />
+					) : (
+						<DocumentArrowUpIcon className='w-16 h-16' />
+					)}
+
+					<p className='text-center my-5'>
+						<span className='block text-2xl font-semibold'>
+							{drag ? 'Suelta' : 'Arrastra'} el archivo aquí
+						</span>
+						Archivos soportados: .xlm, .csv, .doc, .txt
+					</p>
+
+					{!drag && (
+						<>
+							<Button
+								style='secondary'
+								onClick={() => inputRef.current.click()}
+							>
+								Escoger archivo
+							</Button>
+
+							<p className='text-sm'>Peso máximo del archivo: 5MB</p>
+						</>
+					)}
+
+					{error && (
+						<p className='my-5 text-red-500 after:content-["*"]'>{error}</p>
+					)}
+				</>
+			)}
 		</div>
 	);
+};
+
+FileUpload.propTypes = {
+	className: PropTypes.string,
 };
 
 export default FileUpload;
