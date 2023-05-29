@@ -10,7 +10,7 @@ function Button({ children, style = 'primary', className = '', ...props }) {
 	return (
 		<button
 			className={`
-                px-4 py-2 rounded font-medium
+                px-3 py-2 rounded font-medium text-lg
                 transition-all hover:bg-opacity-50 hover:shadow
                 active:-translate-y-1 active:shadow-none
                 ${styles[style]} ${className}
