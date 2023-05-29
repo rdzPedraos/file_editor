@@ -17,13 +17,15 @@ function FileProvider({ children }) {
 		const fileType = fileTypes[file?.type];
 
 		if (fileType) {
-			const data = fileType.extractData(file);
-			setData(data);
-			setError(null);
+			fileType.extractData(file).then(data => {
+				setData(data);
+				setError(null);
+				setLoading(false);
+			});
 		} else {
 			setError('No se reconoce el tipo de archivo.');
+			setLoading(false);
 		}
-		setLoading(false);
 	}, [file]);
 
 	return (
