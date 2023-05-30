@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 app.use(express.static('./client/dist'));
 app.use('/api', api);
 
+app.use(express.static('../client/public'));
+
 app.listen(PORT, () => {
 	console.log(`Server listening on ${PORT}`);
 });
