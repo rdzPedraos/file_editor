@@ -50,6 +50,8 @@ app.post('/convert/word', (req, res) => {
 	});
 });
 
+app.use(express.static('../client/public'));
+
 app.listen(PORT, () => {
 	console.log(`Server listening on ${PORT}`);
 });
