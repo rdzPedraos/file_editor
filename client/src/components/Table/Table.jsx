@@ -5,51 +5,62 @@ import Button from '../Button';
 
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
-function Table({ data, onEdit, onDeleteRow, onDeleteColumn }) {
-	const classNameRow = 'grid grid-cols-[1fr_30px] gap-3 items-center';
+function Table({ data, onEdit, onEditHeader, onDeleteRow, onDeleteColumn }) {
+	const headers = Object.keys(data[0]);
 	return (
 		<div>
-			{onDeleteColumn && (
-				<div className={classNameRow}>
-					<TableRow className='mb-2'>
-						{Array.from(
-							{ length: data[0].length },
-							(_, index) =>
-								index + 1 !== data[0].length && (
-									<Button
-										key={index}
-										size={null}
-										style='secondary'
-										className='py-1 px-1 mx-auto'
-										onClick={() => onDeleteColumn(index)}
-									>
-										<XMarkIcon className='w-5 h-5' />
-									</Button>
-								)
+			<TableRow className={onDeleteRow ? 'pr-[42px]' : ''}>
+				{headers.map((value, key) => (
+					<div key={key}>
+						{onDeleteColumn && (
+							<Button
+								size={null}
+								style='secondary'
+								className='block py-1 px-1 mx-auto mb-2'
+								onClick={() => onDeleteColumn(value)}
+							>
+								<XMarkIcon className='w-5 h-5' />
+							</Button>
 						)}
-					</TableRow>
-				</div>
-			)}
+						<FieldTable
+							type='title'
+							text={value}
+							onEdit={
+								onEditHeader
+									? new_header => onEditHeader(value, new_header)
+									: null
+							}
+						/>
+					</div>
+				))}
+			</TableRow>
 
-			{data.map((row, key) => (
-				<div key={key} className={classNameRow}>
+			{data.map((row, rowId) => (
+				<div
+					key={rowId}
+					className={
+						onDeleteRow
+							? 'grid grid-cols-[1fr_30px] gap-3 items-center'
+							: 'w-full'
+					}
+				>
 					<TableRow>
-						{row.map((value, col) => (
+						{headers.map((header, id) => (
 							<FieldTable
-								key={col}
-								type={key == 0 ? 'title' : 'content'}
-								onEdit={onEdit ? value => onEdit(key, col, value) : null}
-								text={value}
+								key={id}
+								type={'content'}
+								onEdit={onEdit ? value => onEdit(rowId, header, value) : null}
+								text={row[header]}
 							/>
 						))}
 					</TableRow>
 
-					{onDeleteRow && !(key + 1 === data.length) && (
+					{onDeleteRow && (
 						<Button
 							size={null}
 							style='secondary'
 							className='py-1 px-1'
-							onClick={() => onDeleteRow(key)}
+							onClick={() => onDeleteRow(rowId)}
 						>
 							<XMarkIcon className='w-5 h-5' />
 						</Button>
@@ -61,8 +72,9 @@ function Table({ data, onEdit, onDeleteRow, onDeleteColumn }) {
 }
 
 Table.propTypes = {
-	data: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+	data: PropTypes.arrayOf(PropTypes.object),
 	onEdit: PropTypes.func,
+	onEditHeader: PropTypes.func,
 	onDeleteRow: PropTypes.func,
 	onDeleteColumn: PropTypes.func,
 };

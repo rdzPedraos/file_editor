@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 const styles = {
-	primary: 'bg-primary-light text-white',
+	primary: 'bg-primary text-white',
 	secondary: 'bg-secondary-light text-secondary',
 	info: 'bg-info-light text-info',
 };

@@ -22,14 +22,20 @@ function FileProvider({ children }) {
 		const fileTypeInfo = getFileTypeInfo(file);
 
 		if (fileTypeInfo) {
-			fileTypeInfo.extractData(file).then(data => {
-				setData(data);
-				setError(null);
-
-				//setFile(null);
-				setLoading(false);
-				navigate(fileTypeInfo.url);
-			});
+			fileTypeInfo
+				.extractData(file)
+				.then(data => {
+					setData(data);
+					setError(null);
+					navigate(fileTypeInfo.url);
+				})
+				.catch(error => {
+					console.error(error);
+					setError(error.message);
+				})
+				.finally(() => {
+					setLoading(false);
+				});
 		} else {
 			setError('No se reconoce el tipo de archivo.');
 			setLoading(false);
@@ -41,6 +47,7 @@ function FileProvider({ children }) {
 		if (location.pathname !== '/' && file === null) {
 			navigate('/');
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location.pathname, file]);
 
 	return (

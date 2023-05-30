@@ -62,7 +62,7 @@ const FileUpload = ({ className = '' }) => {
 						<span className='block text-2xl font-semibold'>
 							{drag ? 'Suelta' : 'Arrastra'} el archivo aquí
 						</span>
-						Archivos soportados: .xlm, .csv, .doc, .txt
+						Archivos soportados: .xlm, .csv, .docx, .txt
 					</p>
 
 					{!drag && (

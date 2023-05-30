@@ -1,4 +1,6 @@
-const extractDataToTxT = file => {
+import axios from 'axios';
+
+const extractDataFromTxT = file => {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
 
@@ -15,71 +17,68 @@ const extractDataToTxT = file => {
 	});
 };
 
-const extractDataFromXML = file => {
-	console.log(file);
-	return [];
+const extractDataFromDOC = async file => {
+	const formData = new FormData();
+	formData.append('file', file);
+
+	const response = await axios.post('/api/convert/word-html', formData);
+	return response.data;
 };
 
-const extractDataFromDOC = file => {
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
+const extractDataFromXML = async file => {
+	const formData = new FormData();
+	formData.append('file', file);
 
-		reader.onload = function (e) {
-			const fileData = e.target.result;
-
-			// Send the file data to the server
-			fetch('api/convert/word', {
-				method: 'POST',
-				body: fileData,
-				headers: {
-					'Content-Type': 'application/octet-stream',
-				},
-			})
-				.then(response => response.json())
-				.then(data => {
-					const html = data.html;
-					resolve(html);
-				})
-				.catch(error => {
-					console.error(error);
-					reject(new Error('Error al leer el archivo.'));
-				});
-		};
-
-		reader.readAsArrayBuffer(file);
-	});
+	const response = await axios.post('/api/get/xml', formData);
+	return response.data;
 };
 
 const extractDataFromCSV = async file => {
-	const txt = await extractDataToTxT(file);
-	return txt
-		.split('\n')
-		.map(line => line.split(',').map(value => value.trim()));
+	const formData = new FormData();
+	formData.append('file', file);
+
+	const response = await axios.post('/api/get/csv', formData);
+	return response.data;
+};
+
+export const downloadFile = (content, filename) => {
+	const downloadUrl = window.URL.createObjectURL(new Blob([content]));
+	const link = document.createElement('a');
+	link.href = downloadUrl;
+	link.setAttribute('download', filename);
+	document.body.appendChild(link);
+	link.click();
+	link.remove();
 };
 
 export function getFileTypeInfo(file) {
-	switch (file.type) {
-		case 'application/msword':
-		case 'application/wps-office.docx':
+	const type = file.name.split('.').pop().toLowerCase();
+
+	switch (type) {
+		case 'docx':
 			return {
 				extractData: extractDataFromDOC,
 				url: '/word',
 			};
-		case 'text/plain':
+
+		case 'txt':
 			return {
-				extractData: extractDataToTxT,
+				extractData: extractDataFromTxT,
 				url: '/text',
 			};
-		case 'application/vnd.ms-excel':
+
+		case 'csv':
 			return {
 				extractData: extractDataFromCSV,
 				url: '/csv',
 			};
-		case 'text/xml':
+
+		case 'xml':
 			return {
 				extractData: extractDataFromXML,
 				url: '/xml',
 			};
+
 		default:
 			return null;
 	}
